@@ -12,21 +12,21 @@ CYAN = (0, 224, 255)
 # 이미지 로딩
 img_galaxy = pygame.image.load("image_gl/galaxy.png")
 img_sship = [
-    pygame.image.load("image_gl/starship.png"),
-    pygame.image.load("image_gl/starship_l.png"),
-    pygame.image.load("image_gl/starship_r.png"),
-    pygame.image.load("image_gl/starship_burner.png")
+    pygame.image.load("image_gl/mainchar.png"),
+    pygame.image.load("image_gl/mainchar.png"),
+    pygame.image.load("image_gl/mainchar.png"),
+    pygame.image.load("image_gl/water2.png"),
 ]
-img_weapon = pygame.image.load("image_gl/bullet.png")
+img_weapon = pygame.image.load("image_gl/water1.png")
 img_shield = pygame.image.load("image_gl/shield.png")
 img_enemy = [
-    pygame.image.load("image_gl/enemy0.png"),
-    pygame.image.load("image_gl/enemy1.png"),
-    pygame.image.load("image_gl/enemy2.png"),
-    pygame.image.load("image_gl/enemy3.png"),
-    pygame.image.load("image_gl/enemy4.png"),
+    pygame.image.load("image_gl/enemy01.png"),
+    pygame.image.load("image_gl/segyun1.png"),
+    pygame.image.load("image_gl/segyun2.png"),
+    pygame.image.load("image_gl/segyun3.png"),
+    pygame.image.load("image_gl/segyun4.png"),
     pygame.image.load("image_gl/enemy_boss.png"),
-    pygame.image.load("image_gl/enemy_boss_f.png")
+    pygame.image.load("image_gl/enemy_boss_f.png"),
 ]
 img_explode = [
     None,
@@ -34,11 +34,11 @@ img_explode = [
     pygame.image.load("image_gl/explosion2.png"),
     pygame.image.load("image_gl/explosion3.png"),
     pygame.image.load("image_gl/explosion4.png"),
-    pygame.image.load("image_gl/explosion5.png")
+    pygame.image.load("image_gl/explosion5.png"),
 ]
 img_title = [
     pygame.image.load("image_gl/nebula.png"),
-    pygame.image.load("image_gl/logo.png")
+    pygame.image.load("image_gl/logo.png"),
 ]
 
 # SE 로딩 변수
@@ -96,7 +96,7 @@ eff_y = [0] * EFFECT_MAX
 
 
 def get_dis(x1, y1, x2, y2):  # 두 점 사이 거리 계산
-    return ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+    return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
 
 
 def draw_text(scrn, txt, x, y, siz, col):  # 입체적인 문자 표시
@@ -109,11 +109,14 @@ def draw_text(scrn, txt, x, y, siz, col):  # 입체적인 문자 표시
     y = y - sur.get_height() / 2
     scrn.blit(sur, [x + 1, y + 1])
     cr = col[0] + 128
-    if cr > 255: cr = 255
+    if cr > 255:
+        cr = 255
     cg = col[1] + 128
-    if cg > 255: cg = 255
+    if cg > 255:
+        cg = 255
     cb = col[2] + 128
-    if cb > 255: cb = 255
+    if cb > 255:
+        cb = 255
     sur = fnt.render(txt, True, (cr, cg, cb))
     scrn.blit(sur, [x - 1, y - 1])
     sur = fnt.render(txt, True, col)
@@ -201,7 +204,10 @@ def move_missile(scrn):  # 탄환 이동
             msl_x[i] = msl_x[i] + 36 * math.cos(math.radians(msl_a[i]))
             msl_y[i] = msl_y[i] + 36 * math.sin(math.radians(msl_a[i]))
             img_rz = pygame.transform.rotozoom(img_weapon, -90 - msl_a[i], 1.0)
-            scrn.blit(img_rz, [msl_x[i] - img_rz.get_width() / 2, msl_y[i] - img_rz.get_height() / 2])
+            scrn.blit(
+                img_rz,
+                [msl_x[i] - img_rz.get_width() / 2, msl_y[i] - img_rz.get_height() / 2],
+            )
             if msl_y[i] < 0 or msl_x[i] < 0 or msl_x[i] > 960:
                 msl_f[i] = False
 
@@ -216,21 +222,51 @@ def bring_enemy():  # 적 기체 등장
             set_enemy(random.randint(20, 940), LINE_T, 90, EMY_ZAKO + 1, 12, 1)  # 적 2
     if 60 < sec and sec < 85:  # 60~85초
         if tmr % 15 == 0:
-            set_enemy(random.randint(100, 860), LINE_T, random.randint(60, 120), EMY_ZAKO + 2, 6, 3)  # 적 3
+            set_enemy(
+                random.randint(100, 860),
+                LINE_T,
+                random.randint(60, 120),
+                EMY_ZAKO + 2,
+                6,
+                3,
+            )  # 적 3
     if 90 < sec and sec < 115:  # 90~115초
         if tmr % 20 == 0:
             set_enemy(random.randint(100, 860), LINE_T, 90, EMY_ZAKO + 3, 12, 2)  # 적 4
     if 120 < sec and sec < 145:  # 120~145초, 2종류
         if tmr % 20 == 0:
             set_enemy(random.randint(20, 940), LINE_T, 90, EMY_ZAKO, 8, 1)  # 적 1
-            set_enemy(random.randint(100, 860), LINE_T, random.randint(60, 120), EMY_ZAKO + 2, 6, 3)  # 적 3
+            set_enemy(
+                random.randint(100, 860),
+                LINE_T,
+                random.randint(60, 120),
+                EMY_ZAKO + 2,
+                6,
+                3,
+            )  # 적 3
     if 150 < sec and sec < 175:  # 150~175초, 2종류
         if tmr % 20 == 0:
-            set_enemy(random.randint(20, 940), LINE_B, 270, EMY_ZAKO, 8, 1)  # 적 1 아래에서 위로
-            set_enemy(random.randint(20, 940), LINE_T, random.randint(70, 110), EMY_ZAKO + 1, 12, 1)  # 적 2
+            set_enemy(
+                random.randint(20, 940), LINE_B, 270, EMY_ZAKO, 8, 1
+            )  # 적 1 아래에서 위로
+            set_enemy(
+                random.randint(20, 940),
+                LINE_T,
+                random.randint(70, 110),
+                EMY_ZAKO + 1,
+                12,
+                1,
+            )  # 적 2
     if 180 < sec and sec < 205:  # 180~205초, 2종류
         if tmr % 20 == 0:
-            set_enemy(random.randint(100, 860), LINE_T, random.randint(60, 120), EMY_ZAKO + 2, 6, 3)  # 적 3
+            set_enemy(
+                random.randint(100, 860),
+                LINE_T,
+                random.randint(60, 120),
+                EMY_ZAKO + 2,
+                6,
+                3,
+            )  # 적 3
             set_enemy(random.randint(100, 860), LINE_T, 90, EMY_ZAKO + 3, 12, 2)  # 적 4
     if 210 < sec and sec < 235:  # 210~235초, 2종류
         if tmr % 20 == 0:
@@ -240,7 +276,14 @@ def bring_enemy():  # 적 기체 등장
         if tmr % 30 == 0:
             set_enemy(random.randint(20, 940), LINE_T, 90, EMY_ZAKO, 8, 1)  # 적 1
             set_enemy(random.randint(20, 940), LINE_T, 90, EMY_ZAKO + 1, 12, 1)  # 적 2
-            set_enemy(random.randint(100, 860), LINE_T, random.randint(60, 120), EMY_ZAKO + 2, 6, 3)  # 적 3
+            set_enemy(
+                random.randint(100, 860),
+                LINE_T,
+                random.randint(60, 120),
+                EMY_ZAKO + 2,
+                6,
+                3,
+            )  # 적 3
             set_enemy(random.randint(100, 860), LINE_T, 90, EMY_ZAKO + 3, 12, 2)  # 적 4
 
     if tmr == 30 * 270:  # 보스 출현
@@ -278,7 +321,12 @@ def move_enemy(scrn):  # 적 기체 이동
                     if emy_y[i] > 240 and emy_a[i] == 90:
                         emy_a[i] = random.choice([50, 70, 110, 130])
                         set_enemy(emy_x[i], emy_y[i], 90, EMY_BULLET, 6, 0)
-                if emy_x[i] < LINE_L or LINE_R < emy_x[i] or emy_y[i] < LINE_T or LINE_B < emy_y[i]:
+                if (
+                    emy_x[i] < LINE_L
+                    or LINE_R < emy_x[i]
+                    or emy_y[i] < LINE_T
+                    or LINE_B < emy_y[i]
+                ):
                     emy_f[i] = False
             else:  # 보스 기체
                 if emy_count[i] == 0:
@@ -298,7 +346,14 @@ def move_enemy(scrn):  # 적 기체 이동
                             set_enemy(emy_x[i], emy_y[i] + 80, j * 20, EMY_BULLET, 6, 0)
                         emy_count[i] = 1
                 if emy_shield[i] < 100 and tmr % 30 == 0:
-                    set_enemy(emy_x[i], emy_y[i] + 80, random.randint(60, 120), EMY_BULLET, 6, 0)
+                    set_enemy(
+                        emy_x[i],
+                        emy_y[i] + 80,
+                        random.randint(60, 120),
+                        EMY_BULLET,
+                        6,
+                        0,
+                    )
 
             if emy_type[i] != EMY_BULLET:  # 플레이어 기체 발사 탄환과 히트 체크
                 w = img_enemy[emy_type[i]].get_width()
@@ -306,9 +361,15 @@ def move_enemy(scrn):  # 적 기체 이동
                 r = int((w + h) / 4) + 12
                 er = int((w + h) / 4)
                 for n in range(MISSILE_MAX):
-                    if msl_f[n] == True and get_dis(emy_x[i], emy_y[i], msl_x[n], msl_y[n]) < r * r:
+                    if (
+                        msl_f[n] == True
+                        and get_dis(emy_x[i], emy_y[i], msl_x[n], msl_y[n]) < r * r
+                    ):
                         msl_f[n] = False
-                        set_effect(emy_x[i] + random.randint(-er, er), emy_y[i] + random.randint(-er, er))
+                        set_effect(
+                            emy_x[i] + random.randint(-er, er),
+                            emy_y[i] + random.randint(-er, er),
+                        )
                         if emy_type[i] == EMY_BOSS:  # 보스 기체 깜빡임 처리
                             png = emy_type[i] + 1
                         emy_shield[i] = emy_shield[i] - 1
@@ -324,11 +385,17 @@ def move_enemy(scrn):  # 적 기체 이동
                                 idx = 3
                                 tmr = 0
                                 for j in range(10):
-                                    set_effect(emy_x[i] + random.randint(-er, er), emy_y[i] + random.randint(-er, er))
+                                    set_effect(
+                                        emy_x[i] + random.randint(-er, er),
+                                        emy_y[i] + random.randint(-er, er),
+                                    )
                                 se_explosion.play()
 
             img_rz = pygame.transform.rotozoom(img_enemy[png], ang, 1.0)
-            scrn.blit(img_rz, [emy_x[i] - img_rz.get_width() / 2, emy_y[i] - img_rz.get_height() / 2])
+            scrn.blit(
+                img_rz,
+                [emy_x[i] - img_rz.get_width() / 2, emy_y[i] - img_rz.get_height() / 2],
+            )
 
 
 def set_effect(x, y):  # 폭발 설정
@@ -382,7 +449,9 @@ def main():  # 메인 루프
 
         if idx == 0:  # 타이틀
             img_rz = pygame.transform.rotozoom(img_title[0], -tmr % 360, 1.0)
-            screen.blit(img_rz, [480 - img_rz.get_width() / 2, 280 - img_rz.get_height() / 2])
+            screen.blit(
+                img_rz, [480 - img_rz.get_width() / 2, 280 - img_rz.get_height() / 2]
+            )
             screen.blit(img_title[1], [70, 160])
             draw_text(screen, "Press [SPACE] to start!", 480, 600, 50, SILVER)
             if key[K_SPACE] == 1:
@@ -415,7 +484,9 @@ def main():  # 메인 루프
                 pygame.mixer.music.stop()
             if tmr <= 90:
                 if tmr % 5 == 0:
-                    set_effect(ss_x + random.randint(-60, 60), ss_y + random.randint(-60, 60))
+                    set_effect(
+                        ss_x + random.randint(-60, 60), ss_y + random.randint(-60, 60)
+                    )
                 if tmr % 10 == 0:
                     se_damage.play()
             if tmr == 120:
@@ -452,11 +523,15 @@ def main():  # 메인 루프
         draw_text(screen, "HISCORE " + str(hisco), 760, 30, 50, CYAN)
         if idx != 0:  # 실드 표시
             screen.blit(img_shield, [40, 680])
-            pygame.draw.rect(screen, (64, 32, 32), [40 + ss_shield * 4, 680, (100 - ss_shield) * 4, 12])
+            pygame.draw.rect(
+                screen,
+                (64, 32, 32),
+                [40 + ss_shield * 4, 680, (100 - ss_shield) * 4, 12],
+            )
 
         pygame.display.update()
         clock.tick(30)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
