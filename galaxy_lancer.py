@@ -606,3 +606,4 @@ def main():
 # 프로그램 직접 실행시 main() 함수 호출
 if __name__ == "__main__":
     main()
+    pygame.mixer.init()
