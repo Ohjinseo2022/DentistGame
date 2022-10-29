@@ -477,6 +477,7 @@ def main():
     pygame.display.set_caption("Galaxy Lancer")  # 윈도우 타이틀 지정
     screen = pygame.display.set_mode((960, 720))  # 그릴 화면(스크롤) 초기화
     clock = pygame.time.Clock()  # clock 객체 초기화
+    pygame.mixer.init()  # mixer 초기화
     se_barrage = pygame.mixer.Sound("sound_gl/barrage.ogg")  # SE 로딩
     se_damage = pygame.mixer.Sound("sound_gl/damage.ogg")  # SE 로딩
     se_explosion = pygame.mixer.Sound("sound_gl/explosion.ogg")  # SE 로딩
@@ -497,7 +498,7 @@ def main():
                     screen = pygame.display.set_mode((960, 720))  # 일반 화면 모드로 전환
 
         # 배경 스크롤
-        bg_y = (bg_y + 16) % 720  # 배경 스크롤 위치 계산
+        # bg_y = (bg_y + 16) % 720  # 배경 스크롤 위치 계산 ## 배경 고정
         screen.blit(img_galaxy, [0, bg_y - 720])  # 배경 그리기(위쪽)
         screen.blit(img_galaxy, [0, bg_y])  # 배경 그리기(아래쪽)
 
@@ -606,4 +607,3 @@ def main():
 # 프로그램 직접 실행시 main() 함수 호출
 if __name__ == "__main__":
     main()
-    pygame.mixer.init()
