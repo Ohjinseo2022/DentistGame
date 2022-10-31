@@ -202,7 +202,7 @@ def set_missile(typ):
         msl_a[msl_no] = 270  # 탄환 발사 각도
         msl_no = (msl_no + 1) % MISSILE_MAX  # 다음 설정을 위한 번호 계산
     if typ == 10:  # 탄막인 경우
-        for a in range(180, 540, 10):  # 반복해서 방사형으로 탄환 발사
+        for a in range(180, 540, 7):  # 반복해서 방사형으로 탄환 발사
             msl_f[msl_no] = True  # 탄환 발사 플래그 True 설정
             msl_x[msl_no] = ss_x  # 탄환 x 좌표 대입(기체 앞 끝)
             msl_y[msl_no] = ss_y - 50  # 탄환 y 좌표 대입
