@@ -426,6 +426,7 @@ def move_enemy(scrn):
                             new_record = True  # 최고 점수 플래그 설정
                         if emy_shield[i] == 0:  # 적 기체를 격추했다면
                             emy_f[i] = False  # 적 기체 삭제
+                            se_destory.play()
                             if ss_shield < 100:  # 플레이어 실드량 100 미만이면
                                 ss_shield = ss_shield + 1  # 실드량 증가
                             # 보스를 격추시키면 클리어
@@ -471,7 +472,7 @@ def draw_effect(scrn):
 def main():
     # 전역 변수 선언
     global idx, tmr, score, new_record, bg_y, ss_x, ss_y, ss_d, ss_shield, ss_muteki
-    global se_barrage, se_damage, se_explosion, se_shot
+    global se_barrage, se_damage, se_explosion, se_shot, se_destory
 
     pygame.init()  # pygame 모듈 초기화
     pygame.display.set_caption("Dentist Game")  # 윈도우 타이틀 지정
@@ -481,7 +482,7 @@ def main():
     se_damage = pygame.mixer.Sound("sound_gl/damage.ogg")  # SE 로딩
     se_explosion = pygame.mixer.Sound("sound_gl/explosion.ogg")  # SE 로딩
     se_shot = pygame.mixer.Sound("sound_gl/shot.ogg")  # SE 로딩
-
+    se_destory = pygame.mixer.Sound("sound_gl/dest.ogg")
     while True:  # 무한 반복
         tmr = tmr + 1  # tmr 값 1 증가
         for event in pygame.event.get():  # pygame 이벤트 반복 처리
