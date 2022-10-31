@@ -164,7 +164,7 @@ def move_starship(scrn, key):
         se_barrage.play()  # 발사음 출력
 
     if ss_muteki % 2 == 0:  # 무적 상태에서 깜빡이기 위한 if 구문
-        scrn.blit(img_sship[3], [ss_x - 8, ss_y + 40 + (tmr % 3) * 2])  # 엔진 불꽃 그리기
+        scrn.blit(img_sship[3], [ss_x - 8, ss_y + 45 + (tmr % 3) * 2])  # 엔진 불꽃 그리기
         scrn.blit(img_sship[ss_d], [ss_x - 37, ss_y - 48])  # 플레이어 기체 그리기
 
     if ss_muteki > 0:  # 무적 상태라면
