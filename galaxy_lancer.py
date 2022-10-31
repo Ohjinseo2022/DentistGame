@@ -10,7 +10,7 @@ RED = (255, 0, 0)  # 색 정의(빨간색)
 CYAN = (0, 224, 255)  # 색 정의(하늘색)
 
 # 이미지 로딩
-img_galaxy = pygame.image.load("image_gl/galaxy.png")  # 배경 별 이미지 로딩 변수
+img_galaxy = pygame.image.load("image_gl/mainimg.png")  # 배경 별 이미지 로딩 변수
 # 플레이어 기체 이미지 로딩 리스트
 img_sship = [
     pygame.image.load("image_gl/mainchar.png"),
@@ -43,8 +43,8 @@ img_explode = [
 ]
 # 타이틀 화면 이미지 로딩 리스트
 img_title = [
-    pygame.image.load("image_gl/nebula.png"),
-    pygame.image.load("image_gl/logo.png"),
+    pygame.image.load("image_gl/name.png"),
+    pygame.image.load("image_gl/name.png"),
 ]
 
 # SE 로딩 변수
@@ -202,7 +202,7 @@ def set_missile(typ):
         msl_a[msl_no] = 270  # 탄환 발사 각도
         msl_no = (msl_no + 1) % MISSILE_MAX  # 다음 설정을 위한 번호 계산
     if typ == 10:  # 탄막인 경우
-        for a in range(160, 390, 10):  # 반복해서 방사형으로 탄환 발사
+        for a in range(180, 540, 10):  # 반복해서 방사형으로 탄환 발사
             msl_f[msl_no] = True  # 탄환 발사 플래그 True 설정
             msl_x[msl_no] = ss_x  # 탄환 x 좌표 대입(기체 앞 끝)
             msl_y[msl_no] = ss_y - 50  # 탄환 y 좌표 대입
@@ -217,7 +217,7 @@ def move_missile(scrn):
             msl_x[i] = msl_x[i] + 36 * math.cos(math.radians(msl_a[i]))  # x 좌표 계산
             msl_y[i] = msl_y[i] + 36 * math.sin(math.radians(msl_a[i]))  # y 좌표 계산
             img_rz = pygame.transform.rotozoom(
-                img_weapon, -90 - msl_a[i], 1.0
+                img_weapon, 90 - msl_a[i], 1.0
             )  # 날아가는 각도의 회전 이미지 생성
             scrn.blit(
                 img_rz,
@@ -474,7 +474,7 @@ def main():
     global se_barrage, se_damage, se_explosion, se_shot
 
     pygame.init()  # pygame 모듈 초기화
-    pygame.display.set_caption("Galaxy Lancer")  # 윈도우 타이틀 지정
+    pygame.display.set_caption("Dentist Game")  # 윈도우 타이틀 지정
     screen = pygame.display.set_mode((960, 720))  # 그릴 화면(스크롤) 초기화
     clock = pygame.time.Clock()  # clock 객체 초기화
     se_barrage = pygame.mixer.Sound("sound_gl/barrage.ogg")  # SE 로딩
@@ -497,7 +497,7 @@ def main():
                     screen = pygame.display.set_mode((960, 720))  # 일반 화면 모드로 전환
 
         # 배경 스크롤
-        bg_y = (bg_y + 16) % 720  # 배경 스크롤 위치 계산
+        # bg_y = (bg_y + 16) % 720  # 배경 스크롤 위치 계산
         screen.blit(img_galaxy, [0, bg_y - 720])  # 배경 그리기(위쪽)
         screen.blit(img_galaxy, [0, bg_y])  # 배경 그리기(아래쪽)
 
@@ -505,14 +505,15 @@ def main():
 
         # 타이틀 화면
         if idx == 0:  # idx 0 처리(타이틀 화면)
-            img_rz = pygame.transform.rotozoom(
-                img_title[0], -tmr % 360, 1.0
-            )  # 로고 뒤, 회전하는 소용돌이 이미지
-            screen.blit(
-                img_rz, [480 - img_rz.get_width() / 2, 280 - img_rz.get_height() / 2]
-            )  # 이미지를 화면에 그리기
+            # img_rz = pygame.transform.rotozoom(
+            #     img_title[0], -tmr % 360, 1.0
+            # )  # 로고 뒤, 회전하는 소용돌이 이미지
+            # screen.blit(
+            #     img_rz, [480 - img_rz.get_width() / 2, 280 - img_rz.get_height() / 2]
+            # )  # 이미지를 화면에 그리기
             screen.blit(img_title[1], [70, 160])  # 로고 그리기
-            draw_text(screen, "Press [SPACE] to start!", 480, 600, 50, SILVER)  # 문자 표시
+
+            draw_text(screen, "Press [SPACE] to Start!", 480, 600, 50, SILVER)  # 문자 표시
             if key[K_SPACE] == 1:  # 스페이스 키를 눌렀다면
                 idx = 1  # idx에 1 대입
                 tmr = 0  # 타이머에 0 대입
@@ -527,7 +528,7 @@ def main():
                     emy_f[i] = False  # 적 기체 등장하지 않는 상태
                 for i in range(MISSILE_MAX):  # 반복
                     msl_f[i] = False  # 플레이어 탄환 미발사 상태
-                pygame.mixer.music.load("sound_gl/bgm.ogg")  # BGM 로딩
+                pygame.mixer.music.load("sound_gl/mainbgm.ogg")  # BGM 로딩
                 pygame.mixer.music.play(-1)  # BGM 무한 반복 출력
 
         # 게임 플레이 중
